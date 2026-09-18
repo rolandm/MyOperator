@@ -1,0 +1,36 @@
+name: Go Build experimental workflow
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  lets_go:
+    name: Build and test Go code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: ndx-technologies/gh-setup-go@v1
+        id: setup-go
+        with:
+          go-version: '1.27.0'
+      
+      - run: go build ./... && go test ./... 
+      
+      ### optional
+      ##- name: save go mod cache
+      ##  run: gh-setup-go -save-cache -key "${{ steps.setup-go.outputs.key }}"
+
+  simple_go_commands:
+    name: Run a simple Go commands
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: ndx-technologies/gh-setup-go@v1
+        id: setup-go
+        with:
+          go-version: '1.27.0'
+      
+      - run: go doc -ex io
+    
